@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 const userController = require('../controllers/userController')
-// const albumController = require('../controllers/albumController')
+
 
 // Index
 router.get('/', userController.showAllUsers)
@@ -26,6 +26,6 @@ router.get('/:id', userController.showUser)
 router.post('/login', userController.loginUser)
 
 // Logout 
-router.post('/logout', userController.logoutUser)
+router.post('/logout', userController.auth, userController.logoutUser)
 
 module.exports = router

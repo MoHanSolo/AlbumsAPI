@@ -1,5 +1,4 @@
 const User = require('../models/user')
-// const Album = require('../models/album')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET_KEY
@@ -44,6 +43,7 @@ exports.showUser = async (req, res) => {
 }
 
 // create a new user 
+
 exports.createUser = async (req, res) => {
     try {
         const user = new User(req.body)
@@ -84,8 +84,8 @@ exports. deleteUser = async (req, res) => {
 
 exports.loginUser = async (req, res) => {
     try {
-        const user = await User.findOne({ username: req.body.username })
-        if (!user || !await bcrypt.compare(`${req.body.password}${secret}`, user.password)) {
+        const user = await User.findOne({ email: req.body.email })
+        if (!user || !await bcrypt.compare(req.body.password, user.password)) {
             res.status(400).send('Invalid user credentials')
         } else {
             const token = await user.generateAuthToken()
@@ -93,7 +93,7 @@ exports.loginUser = async (req, res) => {
             await user.save()
             res.json({ user, token })
         }
-    } catch (errror) {
+    } catch(error) {
         res.status(400).json({ message: error.message })
     }
 }
