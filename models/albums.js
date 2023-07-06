@@ -3,8 +3,9 @@ const Schema = mongoose.Schema
 
 const albumSchema = new mongoose.Schema({
     title: { type: String, required: true },
+    artist: { type: String, required: true },
     description: { type: String, required: true }, 
-    date_released: { type: Date, required: true },
+    dateReleased: { type: String, required: true },
     genre: { type: String, required: true }, 
     label: { type: String, required: true },
     users: [{
@@ -13,6 +14,6 @@ const albumSchema = new mongoose.Schema({
     }]
 });
 
-const Album = mongoose.model('Album', albumSchema)
+const Album = mongoose.model('Albums', albumSchema)
 
 module.exports = Album

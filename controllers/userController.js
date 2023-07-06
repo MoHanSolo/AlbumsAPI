@@ -47,6 +47,7 @@ exports.showUser = async (req, res) => {
 exports.createUser = async (req, res) => {
     try {
         const user = new User(req.body)
+        user.isLoggedIn = false
         await user.save()
         const token = await user.generateAuthToken()
         res.json({ user, token })
@@ -71,7 +72,7 @@ exports.updateUser = async (req, res) => {
 
 // delete a user specified by an id
 
-exports. deleteUser = async (req, res) => {
+exports.deleteUser = async (req, res) => {
     try {
         await req.user.deleteOne()
         res.json({ message: 'User deleted' })
@@ -85,7 +86,7 @@ exports. deleteUser = async (req, res) => {
 exports.loginUser = async (req, res) => {
     try {
         const user = await User.findOne({ email: req.body.email })
-        if (!user || !await bcrypt.compare(req.body.password, user.password)) {
+        if (!user || !await bcrypt.compare(`${req.body.password}${secret}`, user.password)) {
             res.status(400).send('Invalid user credentials')
         } else {
             const token = await user.generateAuthToken()

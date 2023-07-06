@@ -1,7 +1,12 @@
 const Album = require('../models/albums')
+const User = require('../models/user')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
 const secret = process.env.SECRET_KEY
+
+
+
+
 
 // show all albums in database
 
@@ -28,11 +33,15 @@ exports.showAlbum = async (req, res) => {
 
 // create a new album
 
-exports.createAlbum = async (req, res) => {
+exports.createAlbum = async function (req, res){
     try {
-        const album = new Album(req.body)
-        await album.save()
-        res.json({ album })
+        req.body.user = req.user._id
+        const album = await Album.create(req.body)
+        req.user.albums?
+        req.user.albums.addToSet({ _id: album._id }):
+        req.user.albums = [{_id: album._id }]
+        await req.user.save()
+        res.json(album)
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
@@ -45,7 +54,7 @@ exports.updateAlbum = async (req, res) => {
     try {
         const updates = Object.keys(req.body)
         const album = await Album.findOne({ _id: req.params.id })
-        updates.forEach(update => user[update] = req.body[update])
+        updates.forEach(update => album[update] = req.body[update])
         await album.save()
         res.json ({ album })
     } catch (error) {
@@ -55,11 +64,11 @@ exports.updateAlbum = async (req, res) => {
 
 // delete an album specified by an id
 
-exports.deleteAlbum = async (req, res) => {
-    try {
-        await req.album.deleteOne()
-        res.json({ message: 'Album deleted'})
-    } catch (error) {
+exports.deleteAlbum = async function(req, res){
+    try{
+        const todo = await Album.findOneAndDelete({ _id: req.params.id })
+        res.sendStatus(204)
+    } catch(error){
         res.status(400).json({ message: error.message })
     }
 }
