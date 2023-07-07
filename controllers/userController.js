@@ -47,7 +47,6 @@ exports.showUser = async (req, res) => {
 exports.createUser = async (req, res) => {
     try {
         const user = new User(req.body)
-        user.isLoggedIn = false
         await user.save()
         const token = await user.generateAuthToken()
         res.json({ user, token })

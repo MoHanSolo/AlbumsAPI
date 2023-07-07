@@ -9,7 +9,7 @@ const userSchema = new mongoose.Schema({
     lastName: { type: String },
     email: { type: String, required: true},
     password: { type: String, required: true},
-    isLoggedIn: { type: String, required: false},
+    isLoggedIn: Boolean,
     albums: [{
         type: Schema.Types.ObjectId,
         ref: 'Album'
