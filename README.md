@@ -1,19 +1,19 @@
 # Album API Project
-For this project, I create an express API that users can use to log music albums from their own collection. This API uses express to access a user's Mongo database via routes for creating, updating, deleting, showing a specific / all, and logging in / out users. The API also accesses an album database through routes for creating, updating, deleting, and showing a specific / all albums within the database, according to the user. You can see a visual representation through my ![Trello board](https://trello.com/invite/b/rrVsrzEP/ATTI844a21ea435be1c33e030c77b8f0e596B70E7EE3/albums-api).
+For this project, I create an express API that users can use to log music albums from their own collection. This API uses express to access a user's Mongo database via routes for creating, updating, deleting, showing a specific / all, and logging in / out users. The API also accesses an album database through routes for creating, updating, deleting, and showing a specific / all albums within the database, according to the user. You can see a visual representation through my [Trello board](https://trello.com/invite/b/rrVsrzEP/ATTI844a21ea435be1c33e030c77b8f0e596B70E7EE3/albums-api).
 
 ## Global Installation 
 
 - Must install a couple of packages globally. This means you are allowed to use the code in the package on your local computer:
 
-- ![Node.js](https://nodejs.org/en)
+- [Node.js](https://nodejs.org/en)
 
 Node.js is a cross-platform JavaScript runtime environment
 
-- ![MongoDB](https://www.mongodb.com/)
+- [MongoDB](https://www.mongodb.com/)
 
 MongdoDB is a document database used to build scalable internet applications
 
-- ![Nodemon](https://nodemon.io/)
+- [Nodemon](https://nodemon.io/)
 
 Nodemon is a Command-line tool that helps development for Node.js apps
 
@@ -89,8 +89,9 @@ This will run the API in development mode, which allows you to make changes with
 
 ## API Requests via Postman
 
+Now that our API is up and running, we must now open up [Postman](https://www.postman.com/). You can use the web version, but I highly suggest downloading it.
 
-## Technology used within Albums API
+## Technology used for Albums API
 
 - Node.js
 - Express.js
