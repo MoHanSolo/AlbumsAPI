@@ -12,8 +12,8 @@ const secret = process.env.SECRET_KEY
 
 exports.showAllAlbums = async (req, res) => {
     try {
-        const foundAlbums = await Album.find({})
-        res.json({ Albums: foundAlbums })
+        const foundAlbums = await Album.find({user: req.user._id})
+        res.json(foundAlbums)
     } catch (error) {
         res.status(400).json({ message: error.message })
     }
@@ -56,7 +56,7 @@ exports.updateAlbum = async (req, res) => {
         const album = await Album.findOne({ _id: req.params.id })
         updates.forEach(update => album[update] = req.body[update])
         await album.save()
-        res.json ({ album })
+        res.json ( album )
     } catch (error) {
         res.status(400).json({ message: error.message })
     }

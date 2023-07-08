@@ -8,7 +8,19 @@ scenarios:
       - post:
           url: "/users"
           json:
-            name: "Test"
-            username: "Test-User"
+            firstName: "Test"
+            lastName: "Test-User"
             email: "test@example.com"
             password: "Password123"
+
+  - flow:
+      - post:
+          url: "/albums"
+          json:
+            title: "Channel Orange"
+            artist: "Frank Ocean"
+            description: "Legendary R&B album" 
+            dateReleased: "2015"
+            genre: "R&B"
+            label: "Capital Records"
+          

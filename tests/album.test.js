@@ -44,7 +44,7 @@ describe('Test album endpoints', () => {
                     dateReleased: '1969',
                     genre: 'Rock, Folk', 
                     label: 'Apple Records',
-                    user: user._id
+                    user: user._id,
                 })
                 .set('Authorization', `Bearer ${token}`)
 
@@ -77,12 +77,14 @@ describe('Test album endpoints', () => {
                 description: 'Fourth studio album by Tame Impala. The artist takes you on a personal journey reflecting on growth, love, and loss',
                 dateReleased: '2020',
                 genre: 'Psychedlic pop, Prog-pop',
-                label: 'Interscope Records'
+                label: 'Interscope Records',
+                user: user._id
            }
            const response = await request(app)
            .put(`/albums/${newAlbum._id}`)
-           .send(updateAlbum)
            .set('Authorization', `Bearer ${token}`)
+           .send(updateAlbum)
+           
 
            expect(response.statusCode).toBe(200)
            expect(response.body.title).toEqual('The Slow Rush')
@@ -93,59 +95,73 @@ describe('Test album endpoints', () => {
            expect(response.body.label).toEqual('Interscope Records')
         })
     
-    // test('Deletes an album in users collection', async () => {
-    //     let { user, token } = await callTokenUser()
+    test('Deletes an album in users collection', async () => {
+        let { user, token } = await callTokenUser()
 
-    //     const album = new Album({
-    //         title: 'Mellon Collie And The Infinite Sadness',
-    //         artist: 'The Smashing Pumpkins', 
-    //         description: 'Rainy day album', 
-    //         dateReleased: '1995',
-    //         genre: 'Alternative, Alternative-Rock', 
-    //         label: 'Virgin Records',
-    //         user: user._id
-    //     })
-    //     const saveAlbum = await album.save()
+        const album = new Album({
+            title: 'Mellon Collie And The Infinite Sadness',
+            artist: 'The Smashing Pumpkins', 
+            description: 'Rainy day album', 
+            dateReleased: '1995',
+            genre: 'Alternative, Alternative-Rock', 
+            label: 'Virgin Records',
+            user: user._id
+        })
+        const saveAlbum = await album.save()
 
-    //     const response = await request (app)
-    //     .delete(`/albums/${saveAlbum._id}`)
-    //     .set('Authorization', `Bearer ${token}`)
+        const response = await request (app)
+        .delete(`/albums/${saveAlbum._id}`)
+        .set('Authorization', `Bearer ${token}`)
 
-    //     expect(response.statusCode).toBe(200)
-    //     expect(response.body).toEqual({ message: 'Album deleted' })
+        expect(response.statusCode).toBe(204)
 
-    //     const deleteAlbum = await Album.findById(saveAlbum._id)
-    //     expect(deleteAlbum).tobeNull
-    // })
+        const deleteAlbum = await Album.findById(saveAlbum._id)
+        expect(deleteAlbum).tobeNull
+    })
 
-    // test('Returns a list of albums in a users collection', async () => {
-    //     let { user, token } = await callTokenUser()
+    test('Returns a list of albums in a users collection', async () => {
+        let { user, token } = await callTokenUser()
+        const album = new Album({
+            title: 'Mr. Morale & the Big Steppers',
+            artist: 'Kendrick Lamar',
+            description: 'Fifth studio album by American rapper Kendrick Lamar. This is Kendrick Lamars final album with the label TDE',
+            dateReleased: '2022',
+            genre: 'Hip-hop, Rap, Conscious hip-hop',
+            label: 'Top Dawg Entertainment',
+            user: user._id
+        })
+        await album.save()
+        user.albums.addToSet(album._id)
+        await user.save()
+        const response = await request(app).get('/albums')
+        .set('Authorization', `Bearer ${token}`)
+        console.log(response.body)
+        expect(response.statusCode).toBe(200)
+        expect(response.body[0]).toHaveProperty('title')
+    })
 
-    //     const response = await request(app).get('/albums')
-    //     expect(response.statusCode).toBe(200)
-    //     expect(response.body).toHaveProperty('albums')
-    // })
-
-    // test('Returns a specific album in a users collection', async () => {
-    //     let { user, token } = await callTokenUser()
+    test('Returns a specific album in a users collection', async () => {
+        let { user, token } = await callTokenUser()
         
-    //     const album = new Album({
-    //             title: 'Mr. Morale & the Big Steppers',
-    //             artist: 'Kendrick Lamar',
-    //             description: 'Fifth studio album by American rapper Kendrick Lamar. This is Kendrick Lamars final album with the label TDE',
-    //             dateReleased: '2022',
-    //             genre: 'Hip-hop, Rap, Conscious hip-hop',
-    //             label: 'Top Dawg Entertainment',
-    //             user: user._id
-    //         })
-    //         await album.save()
-    //         const response = await request(app).get(`/albums/${album._id}`)
-    //         console.log(response.body)
+        const album = new Album({
+                title: 'Mr. Morale & the Big Steppers',
+                artist: 'Kendrick Lamar',
+                description: 'Fifth studio album by American rapper Kendrick Lamar. This is Kendrick Lamars final album with the label TDE',
+                dateReleased: '2022',
+                genre: 'Hip-hop, Rap, Conscious hip-hop',
+                label: 'Top Dawg Entertainment',
+                user: user._id
+            })
+            await album.save()
+            const response = await request(app).get(`/albums/${album._id}`)
             
-    //         .set('Authorization', `Bearer ${token}`)
             
-    //         expect(response.statusCode).toBe(200)
-    //         expect(response.body).toHaveProperty('album')
-    //     })
+            .set('Authorization', `Bearer ${token}`)
+
+            console.log(response.body)
+
+            expect(response.statusCode).toBe(200)
+            expect(response.body).toHaveProperty('album')
+        })
     
 })

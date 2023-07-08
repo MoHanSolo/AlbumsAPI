@@ -8,10 +8,10 @@ const albumSchema = new mongoose.Schema({
     dateReleased: { type: String, required: true },
     genre: { type: String, required: true }, 
     label: { type: String, required: true },
-    users: [{
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'User'
-    }]
+    }
 })
 
 const Album = mongoose.model('Albums', albumSchema)
