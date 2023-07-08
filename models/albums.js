@@ -12,7 +12,7 @@ const albumSchema = new mongoose.Schema({
         type: Schema.Types.ObjectId,
         ref: 'User'
     }]
-});
+})
 
 const Album = mongoose.model('Albums', albumSchema)
 

@@ -137,7 +137,7 @@ describe('Test user endpoints', () => {
             })
             await user.save()
             const response = await request(app).get(`/users/${user._id}`)
-            console.log(response.body)
+            // console.log(response.body)
             expect(response.statusCode).toBe(200)
             expect(response.body).toHaveProperty('user')
     })
